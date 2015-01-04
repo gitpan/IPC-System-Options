@@ -1,0 +1,41 @@
+SYNOPSIS
+
+     use IPC::System::Options qw(system);
+    
+     # use exactly like system()
+     system(...);
+    
+     # but it accepts an optional hash first argument to specify options
+     system({...}, ...);
+    
+     # run without shell, even though there is only one argument
+     system({shell=>0}, "ls");
+     system({shell=>0}, "ls -lR"); # will fail, as there is no 'ls -lR' binary
+    
+     # set LC_ALL/LANGUAGE/LANG environment variable
+     system({lang=>"de_DE.UTF-8"}, "df");
+
+DESCRIPTION
+
+FUNCTIONS
+
+ system([ \%opts ], @args)
+
+    Just like perl's system() except that it accepts an optional hash first
+    argument to specify options. Currently known options:
+
+      * shell => bool
+
+      Can be set to 0 to always avoid invoking the shell. The default is to
+      use the shell under certain conditions, like Perl's system().
+
+      * lang => str
+
+      Set locale-related environment variables: LC_ALL (this is the highest
+      precedence, even higher than the other LC_* variables including
+      LC_MESSAGES), LANGUAGE (this is used in Linux, with precedence higher
+      than LANG but lower than LC_*), and LANG.
+
+      Of course you can set the environment variables manually, this option
+      is just for convenience.
+
