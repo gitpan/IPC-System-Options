@@ -1,5 +1,5 @@
 ---
-abstract: "Perl's system() replacement/wrapper, with options"
+abstract: "Perl's system() and backtick/qx replacement/wrapper, with options"
 author:
   - 'perlancar <perlancar@cpan.org>'
 build_requires:
@@ -23,7 +23,7 @@ resources:
   bugtracker: https://rt.cpan.org/Public/Dist/Display.html?Name=IPC-System-Options
   homepage: https://metacpan.org/release/IPC-System-Options
   repository: git://github.com/perlancar/perl-IPC-System-Options.git
-version: '0.01'
+version: '0.02'
 x_Dist_Zilla:
   perl:
     version: '5.018002'

@@ -39,3 +39,14 @@ FUNCTIONS
       Of course you can set the environment variables manually, this option
       is just for convenience.
 
+ backtick([ \%opts ], @args)
+
+    Just like perl's backtick operator (qx()) except that it accepts an
+    optional hash first argument to specify options.
+
+    Known options:
+
+      * lang => str
+
+      See option documentation in system().
+

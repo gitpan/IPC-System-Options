@@ -1,31 +1,45 @@
 package IPC::System::Options;
 
 our $DATE = '2015-01-04'; # DATE
-our $VERSION = '0.01'; # VERSION
+our $VERSION = '0.02'; # VERSION
 
 use 5.010001;
 use strict;
 use warnings;
 
 use Exporter qw(import);
-our @EXPORT_OK = qw(system);
+our @EXPORT_OK = qw(system backtick);
 
-sub system {
+sub _system_or_backtick {
+    my $which = shift;
     my $opts = ref($_[0]) eq 'HASH' ? shift : {};
 
     local $ENV{LC_ALL}   = $opts->{lang} if $opts->{lang};
     local $ENV{LANGUAGE} = $opts->{lang} if $opts->{lang};
     local $ENV{LANG}     = $opts->{lang} if $opts->{lang};
 
-    if (defined($opts->{shell}) && !$opts->{shell}) {
-        system {$_[0]} @_;
+    if ($which eq 'system') {
+        if (defined($opts->{shell}) && !$opts->{shell}) {
+            return system {$_[0]} @_;
+        } else {
+            return system @_;
+        }
     } else {
-        system @_;
+        my $cmd = join " ", @_;
+        return `$cmd`;
     }
 }
 
+sub system {
+    _system_or_backtick('system', @_);
+}
+
+sub backtick {
+    _system_or_backtick('backtick', @_);
+}
+
 1;
-# ABSTRACT: Perl's system() replacement/wrapper, with options
+# ABSTRACT: Perl's system() and backtick/qx replacement/wrapper, with options
 
 __END__
 
@@ -35,11 +49,11 @@ __END__
 
 =head1 NAME
 
-IPC::System::Options - Perl's system() replacement/wrapper, with options
+IPC::System::Options - Perl's system() and backtick/qx replacement/wrapper, with options
 
 =head1 VERSION
 
-This document describes version 0.01 of IPC::System::Options (from Perl distribution IPC-System-Options), released on 2015-01-04.
+This document describes version 0.02 of IPC::System::Options (from Perl distribution IPC-System-Options), released on 2015-01-04.
 
 =head1 SYNOPSIS
 
@@ -83,6 +97,21 @@ C<LANG> but lower than C<LC_*>), and C<LANG>.
 
 Of course you can set the environment variables manually, this option is just
 for convenience.
+
+=back
+
+=head2 backtick([ \%opts ], @args)
+
+Just like perl's backtick operator (C<qx()>) except that it accepts an optional
+hash first argument to specify options.
+
+Known options:
+
+=over
+
+=item * lang => str
+
+See option documentation in C<system()>.
 
 =back
 

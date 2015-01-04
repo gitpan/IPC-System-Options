@@ -1,5 +1,5 @@
 {
-   "abstract" : "Perl's system() replacement/wrapper, with options",
+   "abstract" : "Perl's system() and backtick/qx replacement/wrapper, with options",
    "author" : [
       "perlancar <perlancar@cpan.org>"
    ],
@@ -54,7 +54,7 @@
          "web" : "https://github.com/perlancar/perl-IPC-System-Options"
       }
    },
-   "version" : "0.01",
+   "version" : "0.02",
    "x_Dist_Zilla" : {
       "perl" : {
          "version" : "5.018002"
